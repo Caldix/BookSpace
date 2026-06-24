@@ -3,14 +3,18 @@
    Caches the app shell so it works offline once installed.
    ========================================================= */
 
-const CACHE_NAME = "bookspace-cache-v2";
+const CACHE_NAME = "bookspace-cache-v3";
 const ASSETS_TO_CACHE = [
   "./index.html",
   "./style.css",
   "./app.js",
   "./manifest.json",
   "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./icons/icon-180.png",
+  "./icons/icon-167.png",
+  "./icons/icon-152.png",
+  "./icons/favicon-32.png"
 ];
 
 self.addEventListener("install", (event) => {
