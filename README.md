@@ -14,26 +14,29 @@ Everything is saved locally on your device using **IndexedDB** — nothing is ev
 
 ## Installing on your phone/computer home screen
 
-1. Unzip this folder and upload **all the files, keeping the folder structure** (especially the `icons/` folder), to a static HTTPS host — GitHub Pages works great, exactly like your other projects.
-2. Open the **live HTTPS URL** in your phone's browser (not a local file — the icon and offline support only work when it's loaded over `https://`).
-3. **iPhone (Safari):** tap the Share icon → **Add to Home Screen**. You should see the blue/magenta "B" icon in the preview, not a screenshot of the page — that confirms it's been picked up correctly.
-4. **Android (Chrome):** tap the **⋮** menu → **Install app** (this option only appears once Chrome has successfully loaded `manifest.json` and the icons — if you only see "Add to Home Screen" instead, give the page a few seconds to finish loading first, then check the menu again).
+1. Upload **all the files below directly into your GitHub repo** — they're all flat, no subfolders, so GitHub's normal "Add file → Upload files" works perfectly.
+2. Open the **live HTTPS URL** (your GitHub Pages link) in your phone's browser — the icon and offline support only work when it's loaded over `https://`, not a local file.
+3. **iPhone (Safari):** tap the Share icon → **Add to Home Screen**. You should see the blue/magenta "B" icon in the preview, not a screenshot of the page.
+4. **Android (Chrome):** tap the **⋮** menu → **Install app** (give the page a few seconds to finish loading first if you only see "Add to Home Screen" instead).
 5. Launch it from the home screen icon — it should open full-screen with no browser address bar, like a real app.
-
-If the icon still shows as a generic page/screenshot thumbnail instead of the BookSpace "B": double-check the `icons/` folder actually uploaded alongside `index.html` (not flattened into the same folder), then reload the page once in the browser before re-adding it to your home screen.
 
 ## File structure
 
+All files sit in one flat folder — just upload everything together into your repo, no subfolders needed:
+
 ```
-bookspace/
-├── index.html        ← app shell & markup
-├── style.css          ← all visual styling (Y2K/Frutiger Aero theme)
-├── app.js             ← all logic (IndexedDB storage, editor, characters, timeline, PWA registration)
-├── manifest.json      ← PWA metadata (name, icons, theme color)
-├── service-worker.js  ← offline caching of the app shell
-└── icons/
-    ├── icon-192.png
-    └── icon-512.png
+index.html
+style.css
+app.js
+manifest.json
+service-worker.js
+icon-192.png
+icon-512.png
+icon-180.png
+icon-167.png
+icon-152.png
+favicon-32.png
+README.md
 ```
 
 ## Notes
