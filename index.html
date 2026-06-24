@@ -33,8 +33,16 @@
       <p class="tagline">~*~ your story. your space. ~*~</p>
     </div>
   </div>
-  <div class="status-strip" id="statusStrip">
-    <span class="blinky">●</span> <span id="statusMsg">saved to your space</span>
+  <div class="topbar-actions">
+    <div class="status-strip" id="statusStrip">
+      <span class="blinky">●</span> <span id="statusMsg">saved to your space</span>
+    </div>
+    <button class="icon-toggle" id="darkModeBtn" title="Toggle dark mode">🌙</button>
+    <button class="icon-toggle" id="backupBtn" title="Save a backup file">💾</button>
+    <label class="icon-toggle file-btn" id="restoreBtn" title="Load a backup file">
+      ⤴
+      <input type="file" id="restoreInput" accept="application/json,.json" hidden>
+    </label>
   </div>
 </header>
 

@@ -136,6 +136,21 @@ html, body {
   box-shadow: var(--shadow-glow);
   display: flex; align-items: center; gap: 6px;
 }
+.topbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.icon-toggle {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.85);
+  background: linear-gradient(180deg, #ffffff, #cdeefb 60%, #9fdcf2);
+  color: var(--deep-blue); font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.9), 0 4px 10px rgba(10,77,140,0.2);
+  transition: transform 0.12s ease, filter 0.12s ease;
+  position: relative;
+}
+.icon-toggle:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.icon-toggle:active { transform: translateY(1px); }
+.icon-toggle.file-btn { display: inline-flex; }
+
 .blinky { color: var(--lime); animation: blink 1.4s ease-in-out infinite; font-size: 10px; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
 
@@ -499,4 +514,119 @@ html, body {
   .panel-head h2 { font-size: 20px; }
   .editor-area { padding: 18px; font-size: 16px; }
   .form-row-2 { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   DARK MODE — "after dark" Frutiger Aero
+   Toggled via body.dark (preference saved in localStorage)
+   ========================================================= */
+body.dark {
+  background: radial-gradient(circle at 20% 0%, #1c2a55 0%, #0c1230 45%, #07091c 100%);
+  color: #E8F4FF;
+}
+body.dark .bg-bubbles span {
+  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.5), rgba(255,255,255,0.02) 60%),
+              radial-gradient(circle at 70% 80%, rgba(63,198,232,0.35), transparent 60%);
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: inset 0 0 12px rgba(255,255,255,0.15), 0 6px 14px rgba(0,0,0,0.3);
+}
+
+body.dark .topbar {
+  background: linear-gradient(180deg, rgba(20,28,55,0.85), rgba(15,20,42,0.55));
+  border-bottom-color: rgba(255,255,255,0.12);
+  box-shadow: 0 2px 18px rgba(0,0,0,0.4);
+}
+body.dark .logo-orb {
+  box-shadow: inset -3px -4px 8px rgba(0,0,0,0.5), inset 3px 4px 10px rgba(255,255,255,0.25), 0 4px 14px rgba(63,198,232,0.4);
+}
+body.dark .logo-text h1 {
+  background: linear-gradient(180deg, #8fe3ff, var(--magenta));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 1px 10px rgba(63,198,232,0.35);
+}
+body.dark .tagline { color: #8fe3ff; }
+body.dark .status-strip, body.dark .icon-toggle {
+  background: linear-gradient(180deg, #243463, #16204a);
+  color: #cfeeff;
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.12), 0 4px 10px rgba(0,0,0,0.35);
+}
+
+body.dark .tab-btn {
+  background: linear-gradient(180deg, #2a3a6e, #16204a);
+  color: #cfeeff;
+  border-color: rgba(255,255,255,0.15);
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.1), 0 5px 10px rgba(0,0,0,0.4);
+}
+body.dark .tab-btn.active {
+  background: linear-gradient(180deg, #ff8fe0, var(--magenta) 60%, #8f1373 100%);
+  color: #fff;
+}
+
+body.dark .panel-head h2,
+body.dark .rail-head h2,
+body.dark .chapter-title-input,
+body.dark .char-name,
+body.dark .event-title { color: #9fe3ff; }
+
+body.dark .chapter-rail,
+body.dark .editor-toolbar,
+body.dark .char-card,
+body.dark .timeline-event,
+body.dark .modal-card,
+body.dark .empty-state,
+body.dark .photo-preview {
+  background: linear-gradient(180deg, rgba(30,40,72,0.85), rgba(18,24,48,0.85));
+  border-color: rgba(255,255,255,0.14);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+  color: #dfeeff;
+}
+body.dark .char-card { box-shadow: 0 8px 22px rgba(0,0,0,0.4), inset 0 0 0 2px rgba(63,198,232,0.25); }
+
+body.dark .chapter-item {
+  background: linear-gradient(180deg, #1d2950, #141c3a);
+  border-color: rgba(63,198,232,0.3);
+  color: #cfeeff;
+}
+body.dark .chapter-item.active {
+  background: linear-gradient(180deg, #ff8fe0, var(--magenta));
+  color: #fff;
+}
+
+body.dark .page-shell {
+  background: #10162e;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.5), inset 0 0 0 6px rgba(63,198,232,0.08);
+}
+body.dark .editor-area { color: #e8f4ff; }
+body.dark .editor-area:empty::before { color: #5b6a90; }
+body.dark .editor-footer { color: #8fe3ff; }
+
+body.dark .tool-select,
+body.dark .form-input,
+body.dark .color-pick {
+  background: #141c3a; color: #e8f4ff; border-color: rgba(63,198,232,0.35);
+}
+body.dark .tool-btn {
+  background: linear-gradient(180deg, #243463, #16204a);
+  color: #cfeeff; border-color: rgba(63,198,232,0.35);
+}
+body.dark .form-input::placeholder { color: #5b6a90; }
+body.dark .char-backstory,
+body.dark .event-desc { color: #b9cde3; }
+
+body.dark .btn-bubble.ghost {
+  background: linear-gradient(180deg, #243463, #16204a);
+  color: #cfeeff;
+}
+
+body.dark .modal-overlay { background: rgba(0,0,0,0.65); }
+body.dark .modal-close { background: #243463; color: #cfeeff; }
+body.dark .pagefoot { color: #8fe3ff; opacity: 0.7; }
+body.dark .confirm-text { color: #b9cde3; }
+body.dark .event-when { background: var(--magenta); }
+body.dark .tiny-btn { background: rgba(63,198,232,0.25); color: #cfeeff; }
+
+body.dark .toast {
+  background: linear-gradient(180deg, #243463, var(--lime));
+  color: #07091c;
 }

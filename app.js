@@ -70,6 +70,17 @@
     );
   }
 
+  function dbClear(storeName) {
+    return tx(storeName, "readwrite").then(
+      (store) =>
+        new Promise((resolve, reject) => {
+          const req = store.clear();
+          req.onsuccess = () => resolve();
+          req.onerror = () => reject(req.error);
+        })
+    );
+  }
+
   function uid() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   }
@@ -535,7 +546,135 @@
   }
 
   /* =========================================================
-     7. PWA — service worker registration
+     7. DARK MODE
+  ========================================================= */
+  const DARK_KEY = "bookspace_dark_mode";
+  const darkModeBtn = document.getElementById("darkModeBtn");
+
+  function applyDarkMode(isDark) {
+    document.body.classList.toggle("dark", isDark);
+    darkModeBtn.textContent = isDark ? "☀" : "🌙";
+    darkModeBtn.title = isDark ? "Switch to light mode" : "Switch to dark mode";
+  }
+
+  function initDarkMode() {
+    let saved = null;
+    try {
+      saved = localStorage.getItem(DARK_KEY);
+    } catch (e) {
+      /* localStorage unavailable — default to light */
+    }
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = saved !== null ? saved === "1" : prefersDark;
+    applyDarkMode(isDark);
+  }
+
+  darkModeBtn.addEventListener("click", () => {
+    const isDark = !document.body.classList.contains("dark");
+    applyDarkMode(isDark);
+    try {
+      localStorage.setItem(DARK_KEY, isDark ? "1" : "0");
+    } catch (e) {
+      /* ignore — preference just won't persist */
+    }
+    showToast(isDark ? "dark mode on 🌙" : "dark mode off ☀");
+  });
+
+  /* =========================================================
+     8. BACKUP & RESTORE
+  ========================================================= */
+  const BACKUP_VERSION = 1;
+
+  async function exportBackup() {
+    try {
+      const [chs, chars, evs] = await Promise.all([
+        dbGetAll("chapters"),
+        dbGetAll("characters"),
+        dbGetAll("events"),
+      ]);
+      const backup = {
+        app: "BookSpace",
+        version: BACKUP_VERSION,
+        exportedAt: new Date().toISOString(),
+        chapters: chs,
+        characters: chars,
+        events: evs,
+      };
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `bookspace-backup-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast("backup saved ✦ check your downloads");
+    } catch (err) {
+      console.error("Backup failed:", err);
+      showToast("backup failed — see console for details");
+    }
+  }
+
+  function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsText(file);
+    });
+  }
+
+  async function importBackup(file) {
+    let data;
+    try {
+      const text = await readFileAsText(file);
+      data = JSON.parse(text);
+    } catch (err) {
+      showToast("that file doesn't look like a valid backup");
+      return;
+    }
+
+    if (!data || !Array.isArray(data.chapters) || !Array.isArray(data.characters) || !Array.isArray(data.events)) {
+      showToast("that file doesn't look like a BookSpace backup");
+      return;
+    }
+
+    const ok = await askConfirm(
+      "load this backup?",
+      "This will replace everything currently in this browser — all chapters, characters and timeline events — with the contents of the backup file. This can't be undone."
+    );
+    if (!ok) return;
+
+    try {
+      await Promise.all([dbClear("chapters"), dbClear("characters"), dbClear("events")]);
+      await Promise.all(data.chapters.map((c) => dbPut("chapters", c)));
+      await Promise.all(data.characters.map((c) => dbPut("characters", c)));
+      await Promise.all(data.events.map((e) => dbPut("events", e)));
+
+      await loadChapters();
+      await loadCharacters();
+      await loadEvents();
+
+      showToast("backup loaded ✦ welcome back");
+    } catch (err) {
+      console.error("Restore failed:", err);
+      showToast("restore failed — see console for details");
+    }
+  }
+
+  document.getElementById("backupBtn").addEventListener("click", exportBackup);
+
+  document.getElementById("restoreInput").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    e.target.value = ""; // reset so picking the same file again still fires 'change'
+    if (!file) return;
+    await importBackup(file);
+  });
+
+  /* =========================================================
+     9. PWA — service worker registration
   ========================================================= */
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
@@ -546,10 +685,11 @@
   }
 
   /* =========================================================
-     8. Init
+     10. Init
   ========================================================= */
   (async function init() {
     try {
+      initDarkMode();
       await loadChapters();
       await loadCharacters();
       await loadEvents();

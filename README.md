@@ -7,6 +7,8 @@ A Y2K / Frutiger-Aero styled, fully offline writing app for your book — drafts
 - **Drafts** — a rich-text editor (bold, italic, underline, strikethrough, font family, font size, color, alignment, bullet lists) with a chapter list sidebar. Multiple chapters, word/character count, autosave.
 - **Cast** — character profile cards: photo, name, age, gender, backstory.
 - **Timeline** — chronological story events with a date/era label, description, linked characters, and up/down reordering.
+- **Backup & restore** — 💾 saves everything (chapters, characters, timeline, photos) into one `.json` file you can keep anywhere. ⤴ loads a backup file back in — handy for moving to another browser, computer, or phone.
+- **Dark mode** — 🌙/☀ toggle in the top bar, remembers your choice next time you open the app.
 
 Everything is saved locally on your device using **IndexedDB** — nothing is ever sent anywhere.
 
@@ -33,5 +35,6 @@ bookspace/
 
 ## Notes
 
-- Your data lives in the browser's IndexedDB for this specific site/origin. If you clear site data or switch browsers/devices, it won't carry over automatically — there's no built-in export/backup yet, so it's worth keeping that in mind (just like with your other GitHub Pages apps, this would be a good next feature if you want it).
+- Your data lives in the browser's IndexedDB for this specific site/origin. Use the 💾 **backup** button regularly and keep the file somewhere safe (cloud drive, email to yourself, etc.) — especially before clearing browser data or switching devices/browsers.
+- To move your book to another browser or device: open BookSpace there, tap ⤴ **restore**, and pick your backup `.json` file. This replaces whatever is currently in that browser with the backup's contents, so only do it on a fresh install or when you're sure you want to overwrite.
 - Works fully offline after the first visit thanks to the service worker, aside from the two Google Fonts (Baloo 2, Quicksand) which need a connection the very first time they're fetched — everything else is cached locally.

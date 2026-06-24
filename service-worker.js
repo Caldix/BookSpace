@@ -3,7 +3,7 @@
    Caches the app shell so it works offline once installed.
    ========================================================= */
 
-const CACHE_NAME = "bookspace-cache-v1";
+const CACHE_NAME = "bookspace-cache-v2";
 const ASSETS_TO_CACHE = [
   "./index.html",
   "./style.css",
