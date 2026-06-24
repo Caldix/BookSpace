@@ -1,0 +1,25 @@
+{
+  "name": "BookSpace",
+  "short_name": "BookSpace",
+  "description": "Your story, your space — write drafts, build your cast, map your timeline. Y2K style.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#BFE9FB",
+  "theme_color": "#3FC6E8",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

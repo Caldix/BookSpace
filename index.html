@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BookSpace ✦ your story, your space</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#3FC6E8">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BookSpace">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- floaty background bubbles -->
+<div class="bg-bubbles" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<!-- ====== TOP BAR ====== -->
+<header class="topbar">
+  <div class="logo-wrap">
+    <div class="logo-orb">✎</div>
+    <div class="logo-text">
+      <h1>BookSpace<span class="sparkle">✦</span></h1>
+      <p class="tagline">~*~ your story. your space. ~*~</p>
+    </div>
+  </div>
+  <div class="status-strip" id="statusStrip">
+    <span class="blinky">●</span> <span id="statusMsg">saved to your space</span>
+  </div>
+</header>
+
+<!-- ====== NAV ====== -->
+<nav class="tabnav" id="tabnav">
+  <button class="tab-btn active" data-tab="drafts"><span class="tab-ico">📓</span>Drafts</button>
+  <button class="tab-btn" data-tab="characters"><span class="tab-ico">👤</span>Cast</button>
+  <button class="tab-btn" data-tab="timeline"><span class="tab-ico">🕒</span>Timeline</button>
+</nav>
+
+<main id="app">
+
+  <!-- ================= DRAFTS TAB ================= -->
+  <section class="tab-panel active" id="panel-drafts">
+    <div class="drafts-layout">
+
+      <aside class="chapter-rail" id="chapterRail">
+        <div class="rail-head">
+          <h2>chapters</h2>
+          <button class="btn-bubble small" id="newChapterBtn" title="New chapter">+ new</button>
+        </div>
+        <ul class="chapter-list" id="chapterList"><!-- injected --></ul>
+      </aside>
+
+      <div class="editor-wrap">
+        <div class="editor-toolbar" id="editorToolbar">
+          <input type="text" id="chapterTitleInput" class="chapter-title-input" placeholder="untitled chapter ✎" maxlength="80">
+
+          <div class="toolbar-row">
+            <select id="fontFamilySel" class="tool-select" title="Font">
+              <option value="'Comic Sans MS', 'Comic Sans', cursive">Comic Sans</option>
+              <option value="'Trebuchet MS', sans-serif" selected>Trebuchet</option>
+              <option value="'Courier New', monospace">Typewriter</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="'Times New Roman', serif">Times</option>
+            </select>
+
+            <select id="fontSizeSel" class="tool-select" title="Size">
+              <option value="2">small</option>
+              <option value="3" selected>normal</option>
+              <option value="4">medium</option>
+              <option value="5">large</option>
+              <option value="6">huge</option>
+              <option value="7">giant</option>
+            </select>
+
+            <div class="tool-divider"></div>
+
+            <button class="tool-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+            <button class="tool-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+            <button class="tool-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+            <button class="tool-btn" data-cmd="strikeThrough" title="Strikethrough"><s>S</s></button>
+
+            <div class="tool-divider"></div>
+
+            <button class="tool-btn" data-cmd="justifyLeft" title="Align left">⬅</button>
+            <button class="tool-btn" data-cmd="justifyCenter" title="Align center">↔</button>
+            <button class="tool-btn" data-cmd="justifyRight" title="Align right">➡</button>
+
+            <div class="tool-divider"></div>
+
+            <input type="color" id="textColorPicker" class="color-pick" title="Text color" value="#1a1a2e">
+            <button class="tool-btn" data-cmd="insertUnorderedList" title="Bullet list">☰</button>
+            <button class="tool-btn" data-cmd="removeFormat" title="Clear formatting">⨯</button>
+
+            <div class="tool-divider"></div>
+            <button class="tool-btn danger" id="deleteChapterBtn" title="Delete this chapter">🗑</button>
+          </div>
+        </div>
+
+        <div class="page-shell">
+          <div class="page-curl"></div>
+          <div class="editor-area" id="editorArea" contenteditable="true" spellcheck="true"
+               data-placeholder="once upon a time...">
+          </div>
+        </div>
+
+        <div class="editor-footer">
+          <span id="wordCount">0 words</span>
+          <span class="dot">•</span>
+          <span id="charCount">0 characters</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHARACTERS TAB ================= -->
+  <section class="tab-panel" id="panel-characters">
+    <div class="panel-head">
+      <h2>the cast <span class="sparkle">✦</span></h2>
+      <button class="btn-bubble" id="newCharBtn">+ add character</button>
+    </div>
+    <div class="char-grid" id="charGrid"><!-- injected --></div>
+    <div class="empty-state" id="charEmpty" hidden>
+      <div class="empty-orb">👤</div>
+      <p>no characters yet. click "add character" to build your cast!</p>
+    </div>
+  </section>
+
+  <!-- ================= TIMELINE TAB ================= -->
+  <section class="tab-panel" id="panel-timeline">
+    <div class="panel-head">
+      <h2>story timeline <span class="sparkle">✦</span></h2>
+      <button class="btn-bubble" id="newEventBtn">+ add event</button>
+    </div>
+    <div class="timeline-wrap" id="timelineWrap"><!-- injected --></div>
+    <div class="empty-state" id="timelineEmpty" hidden>
+      <div class="empty-orb">🕒</div>
+      <p>no events yet. start mapping out your story's memorable moments!</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pagefoot">
+  <p>made with <span class="heart">♥</span> in BookSpace — everything's saved right on this device</p>
+</footer>
+
+<!-- ====== CHARACTER MODAL ====== -->
+<div class="modal-overlay" id="charModalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal="charModalOverlay">✕</button>
+    <h3 id="charModalTitle">new character</h3>
+    <form id="charForm">
+      <input type="hidden" id="charId">
+      <div class="modal-photo-row">
+        <div class="photo-preview" id="charPhotoPreview">
+          <span id="charPhotoPlaceholder">📷</span>
+          <img id="charPhotoImg" hidden>
+        </div>
+        <div class="photo-actions">
+          <label class="btn-bubble small file-btn">
+            choose photo
+            <input type="file" id="charPhotoInput" accept="image/*" hidden>
+          </label>
+          <button type="button" class="btn-bubble small ghost" id="charPhotoRemove">remove</button>
+        </div>
+      </div>
+
+      <label class="form-label">name</label>
+      <input type="text" id="charName" class="form-input" placeholder="e.g. Lyra Ashworth" required>
+
+      <div class="form-row-2">
+        <div>
+          <label class="form-label">age</label>
+          <input type="text" id="charAge" class="form-input" placeholder="e.g. 27">
+        </div>
+        <div>
+          <label class="form-label">gender</label>
+          <input type="text" id="charGender" class="form-input" placeholder="e.g. female">
+        </div>
+      </div>
+
+      <label class="form-label">backstory</label>
+      <textarea id="charBackstory" class="form-input form-textarea" rows="5" placeholder="who are they, before page one?"></textarea>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-bubble ghost" data-close-modal="charModalOverlay">cancel</button>
+        <button type="submit" class="btn-bubble">save character</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ====== TIMELINE EVENT MODAL ====== -->
+<div class="modal-overlay" id="eventModalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal="eventModalOverlay">✕</button>
+    <h3 id="eventModalTitle">new event</h3>
+    <form id="eventForm">
+      <input type="hidden" id="eventId">
+
+      <label class="form-label">when (in-story date / era / chapter marker)</label>
+      <input type="text" id="eventWhen" class="form-input" placeholder="e.g. Year 3, Spring — or 'Chapter 4'" required>
+
+      <label class="form-label">event title</label>
+      <input type="text" id="eventTitle" class="form-input" placeholder="e.g. The tower falls" required>
+
+      <label class="form-label">description</label>
+      <textarea id="eventDesc" class="form-input form-textarea" rows="4" placeholder="what happens here?"></textarea>
+
+      <label class="form-label">linked characters (comma separated, optional)</label>
+      <input type="text" id="eventChars" class="form-input" placeholder="e.g. Lyra, Captain Voss">
+
+      <div class="modal-actions">
+        <button type="button" class="btn-bubble ghost" data-close-modal="eventModalOverlay">cancel</button>
+        <button type="submit" class="btn-bubble">save event</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ====== CONFIRM DELETE MODAL ====== -->
+<div class="modal-overlay" id="confirmModalOverlay">
+  <div class="modal-card small">
+    <h3 id="confirmModalTitle">are you sure?</h3>
+    <p id="confirmModalText" class="confirm-text"></p>
+    <div class="modal-actions">
+      <button type="button" class="btn-bubble ghost" id="confirmCancelBtn">cancel</button>
+      <button type="button" class="btn-bubble danger" id="confirmOkBtn">delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
